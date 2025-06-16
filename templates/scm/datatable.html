@@ -1,0 +1,119 @@
+{% extends "scm/base.html" %}
+{% load filters %}
+{% block content %}
+<!-- DataTables & Flatpickr -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<!-- Filters -->
+<div style="margin-bottom: 20px;height: 100%;">
+  <h1 style="text-align: center;">Agent Tracker Table </h1>
+  <label>
+    Username:
+    <input type="text" id="username-filter" placeholder="Filter by username" />
+  </label>
+  <label style="margin-left: 20px;">
+    Start DateTime:
+    <input type="text" id="start-datetime" class="datetime-filter" placeholder="YYYY-MM-DD HH:mm:ss" autocomplete="off" />
+  </label>
+  <label style="margin-left: 10px;">
+    End DateTime:
+    <input type="text" id="end-datetime" class="datetime-filter" placeholder="YYYY-MM-DD HH:mm:ss" autocomplete="off" />
+  </label>
+</div>
+
+<!-- DataTable -->
+<table id="record-table" class="display stripe hover" style="width:100%">
+  <thead>
+    <tr>
+      <th>Agent Name</th>
+      <th>Date</th>
+      <th>Start Time</th>
+      <th>End Time</th>
+      <th>Stream</th>
+      <th>Post Id</th>
+      <th>Action Taken</th>
+      <th>Labels</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for record in records %}
+      <tr>
+        <td>{{ record.agent_name }}</td>
+        <td>{{ record.moderation_date|date:"Y-m-d" }}</td>
+        <td>{{ record.start_time|time:"H:i:s" }}</td>
+        <td>{{ record.end_time|time:"H:i:s" }}</td>
+        <td>{{ record.moderation_stream }}</td>
+        <td>{{ record.curalate_post_id }}</td>
+        <td>{{ record.agent_action }}</td>
+        <td>{{ record.selected_labels|join_labels }}</td>
+
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Script -->
+<script>
+  flatpickr(".datetime-filter", {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i:s", // lowercase s for seconds
+    time_24hr: true,
+    allowInput: true,
+  });
+
+  $(document).ready(function () {
+    const table = $("#record-table").DataTable();
+
+    // Username filter
+    $("#username-filter").on("keyup change", function () {
+      table.column(0).search(this.value).draw();
+    });
+
+    // Custom datetime filter (overlapping logic)
+    $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+      const min = $("#start-datetime").val();
+      const max = $("#end-datetime").val();
+
+      const date = data[1];       // YYYY-MM-DD
+      const startTime = data[2];  // HH:mm:ss
+      const endTime = data[3];    // HH:mm:ss
+
+      const recordStart = new Date(`${date}T${startTime}`);
+      const recordEnd = new Date(`${date}T${endTime}`);
+
+      const filterStart = min ? new Date(min.replace(" ", "T")) : null;
+      const filterEnd = max ? new Date(max.replace(" ", "T")) : null;
+
+      if (
+        (!filterStart || recordEnd >= filterStart) &&
+        (!filterEnd || recordStart <= filterEnd)
+      ) {
+        return true;
+      }
+      return false;
+    });
+
+    // Redraw on filter change
+    $("#start-datetime, #end-datetime").on("change", function () {
+      table.draw();
+    });
+  });
+</script>
+
+<!-- Table Style -->
+<style>
+  table.dataTable {
+    border-collapse: collapse !important;
+  }
+
+  table.dataTable thead th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+  }
+</style>
+{% endblock content %}

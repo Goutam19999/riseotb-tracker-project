@@ -1,0 +1,43 @@
+{% extends "scm/base.html" %}
+{% load filters %}
+{% block content %}
+<div style="height: 100%;">
+<h2>Search Post By Curalate Post ID</h2>
+
+<form method="get" action="">
+  <input type="text" name="curalate_post_id" placeholder="Enter Post ID" value="{{ query }}">
+  <button type="submit">Search</button>
+</form>
+
+{% if records %}
+  <table>
+    <thead>
+      <tr>
+        <th>Agent Name</th>
+        <th>Moderation Date</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Post ID</th>
+        <th>Action Taken</th>
+        <th>Labels</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for record in records %}
+        <tr>
+          <td>{{ record.agent_name }}</td>
+          <td>{{ record.moderation_date|date:"Y-m-d" }}</td>
+          <td>{{ record.start_time|time:"H:i:s" }}</td>
+          <td>{{ record.end_time|time:"H:i:s" }}</td>
+          <td>{{ record.curalate_post_id }}</td>
+          <td>{{ record.agent_action }}</td>
+          <td>{{ record.selected_labels|join_labels }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% elif query %}
+  <p>No records found for post ID "{{ query }}".</p>
+{% endif %}
+</div>
+{% endblock %}

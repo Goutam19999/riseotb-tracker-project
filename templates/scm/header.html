@@ -1,0 +1,149 @@
+{% load static %}
+<style>
+  .navbar {
+    background-color: #797c86;
+  }
+
+  .user-dropdown {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .user-dropdown img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+
+  .user-menu {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background-color: #343a40;
+    border-radius: 6px;
+    min-width: 180px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .user-menu ul {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+  }
+
+  .user-menu li {
+    padding: 8px 20px;
+  }
+
+  .user-menu li a,
+  .user-menu li button {
+    color: white;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .user-menu li a:hover,
+  .user-menu li button:hover {
+    background-color: #495057;
+    border-radius: 4px;
+  }
+</style>
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <img src="{% static 'img/1640263025915.jpeg' %}" width="50px" alt="logo">
+    </a>
+    <button class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item">
+          <a class="nav-link active" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown user-dropdown" onclick="toggleUserMenu()">
+            <div class="d-flex align-items-center">
+              <img src="{% static 'img/user.jpg' %}" alt="User">
+              <span class="nav-link text-white">{{ user.username|upper }}</span>
+            </div>
+            {% if user.username == "goutammanna" %}
+              <div id="user-menu" class="user-menu">
+                <ul>
+                  <li>
+                    <a href="{% url 'register' %}">Add User</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'tracker-table' %}">Tracker Sheet</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'search-post' %}">Search post By Post_id</a>
+                  </li>
+                  <li>
+                    <form method="post" action="{% url 'logout' %}">
+                      {% csrf_token %}
+                      <button type="submit">Logout</button>
+                    </form>
+                  </li>
+                </ul>
+              </div>
+            {% else %}
+              <div id="user-menu" class="user-menu">
+                <ul>
+                  <li>
+                    <a href="#">Something</a>
+                  </li>
+                  <li>
+                    <form method="post" action="{% url 'logout' %}">
+                      {% csrf_token %}
+                      <button type="submit">Logout</button>
+                    </form>
+                  </li>
+                </ul>
+              </div>
+            {% endif %}
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<script>
+  function toggleUserMenu() {
+    const menu = document.getElementById('user-menu');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // Optional: Hide menu when clicking outside
+  document.addEventListener('click', function (e) {
+    const dropdown = document.querySelector('.user-dropdown');
+    const menu = document.getElementById('user-menu');
+    if (!dropdown.contains(e.target)) {
+      if (menu) menu.style.display = 'none';
+    }
+  });
+</script>

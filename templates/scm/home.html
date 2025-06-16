@@ -1,0 +1,33 @@
+{% extends 'scm/base.html' %}
+{% block content %}
+      <!-- Main Content -->
+      <main class="content">
+        <!-- Hero Section -->
+        <section class="py-5 text-center bg-light">
+          <div class="container">
+            <h1 class="display-4">Welcome to RiseOtb Agent Tracker Site</h1>
+            <p class="lead">Take a deep breath and can start working .</p>
+            <a href="{% url 'stream-list' %}" class="btn btn-primary btn-lg">Get Started</a>
+          </div>
+        </section>
+        <section class="py-5">
+          <div class="container">
+            <div class="row text-center">
+              <div class="col-md-4">
+                <h3>Feature One</h3>
+                <p>More Efficient , Easy to Handel ,Time Saving .</p>
+              </div>
+              <div class="col-md-4">
+                <h3>Feature Two</h3>
+                <p>Security and Privacy is the Kay of this Project.</p>
+              </div>
+              <div class="col-md-4">
+                <h3>Feature Three</h3>
+                <p>Everythings Is In One Place .</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    
+    {% endblock content %}

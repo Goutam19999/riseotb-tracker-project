@@ -1,0 +1,26 @@
+{% extends 'scm/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4"
+  style="height: 100%;" >
+  <h3 style="padding: 5px;">Please select Your Stream and Start Work .</h3>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+    {% for stream in streams %}
+      <div class="col">
+        <a href="{% url 'moderation-form' stream.id %}" style="text-decoration: none;">
+        <div class="card h-100 shadow-sm">
+          {% if stream.logo %}
+            <img src="{{ stream.logo.url }}" style="height: 60px; width: 60px;" class="card-img-top" alt="{{ stream.name }}">
+          {% else %}
+            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Default Logo">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title text-center">{{ stream.name }}</h5>
+          </div>
+        </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

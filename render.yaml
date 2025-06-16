@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: django-app
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn RISEOTB.wsgi:application"
+    envVars:
+      - key: DEBUG
+        value: false
+      - key: SECRET_KEY
+        value: django-insecure-d==s%n=4o%e-rhl8-sx0ia8)yc)^%=@n$_d$p^fb2l8-@#*6g(
+      - key: ALLOWED_HOSTS
+        value: .onrender.com

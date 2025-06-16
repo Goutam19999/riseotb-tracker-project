@@ -1,0 +1,59 @@
+{% extends "scm/base.html" %}
+{% load filters %}
+{% block content %}
+<div class="container" style="max-width: 900px; margin: 40px auto;
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; height: 100%;
+ background: #f9f9f9; padding: 30px 40px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+  <button
+    style="
+      float: right;
+      background-color: #17a2b8;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 10px 25px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: default;
+      box-shadow: 0 2px 6px rgba(23, 162, 184, 0.4);
+      transition: background-color 0.3s ease;
+    "
+    aria-label="Total Moderations Today"
+  >
+    Total Moderations Today: {{ total_moderations }}
+  </button>
+
+  <h2 style="margin-bottom: 25px; color: #343a40; font-weight: 700;">
+    ✅ Your response was successfully submitted!
+  </h2>
+
+  <div style="line-height: 1.6; color: #555; font-size: 16px;">
+    <p><strong>Post Handled By:</strong> <span style="color:#007bff;">{{ moderation.agent_name }}</span></p>
+    <p><strong>Moderation Stream:</strong> <span style="color:#007bff;">{{ stream.name }}</span></p>
+    <p><strong>Agent Action:</strong> <span style="color:#007bff;">{{ moderation.get_agent_action_display }}</span></p>
+    <p><strong>Lables:</strong> <span style="color:#007bff;">{{ moderation.selected_labels|join_labels }}</span></p>
+  </div>
+
+  <a
+    href="{% url 'moderation-form' stream_id=stream.id %}"
+    style="
+      display: inline-block;
+      margin-top: 40px;
+      background-color: #007bff;
+      color: white;
+      padding: 14px 30px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+      transition: background-color 0.3s ease;
+    "
+    onmouseover="this.style.backgroundColor='#0056b3'"
+    onmouseout="this.style.backgroundColor='#007bff'"
+  >
+    Submit Another Response
+  </a>
+</div>
+{% endblock %}
