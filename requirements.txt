@@ -79,6 +79,7 @@ pure_eval==0.2.3
 pycparser==2.22
 Pygments==2.19.1
 python-dateutil==2.9.0.post0
+python-decouple==3.8
 python-json-logger==3.2.1
 pywin32==308
 pywinpty==2.0.15
