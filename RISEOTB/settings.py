@@ -25,7 +25,15 @@ SECRET_KEY = 'django-insecure-d==s%n=4o%e-rhl8-sx0ia8)yc)^%=@n$_d$p^fb2l8-@#*6g(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+import os
+
+ALLOWED_HOSTS = [
+    '.onrender.com',
+    'localhost',
+    '127.0.0.1',
+    os.environ.get('RENDER_EXTERNAL_HOSTNAME')  # Add Render's dynamic hostname
+]
+
 
 
 # Application definition
@@ -141,7 +149,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['.onrender.com']
 
 
 
