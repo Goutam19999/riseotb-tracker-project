@@ -1,9 +1,9 @@
 services:
   - type: web
-    name: scmtracker
+    name: riseotb-tracker
     env: python
-    buildCommand: "./build.sh"
-    startCommand: "gunicorn SCM TRACKER.wsgi:application"
-    plan: free
-    branch: main
-    autoDeploy: true
+    buildCommand: "pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn RISEOTB.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10
