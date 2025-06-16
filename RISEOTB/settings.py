@@ -133,11 +133,15 @@ import os
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+import os
+from pathlib import Path
 from decouple import config
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['.onrender.com']  # Accept Render domain
+ALLOWED_HOSTS = ['.onrender.com']
 
 
 
