@@ -25,17 +25,6 @@ SECRET_KEY = 'django-insecure-d==s%n=4o%e-rhl8-sx0ia8)yc)^%=@n$_d$p^fb2l8-@#*6g(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-import os
-
-ALLOWED_HOSTS = [
-    '.onrender.com',
-    'localhost',
-    '127.0.0.1',
-    os.environ.get('RENDER_EXTERNAL_HOSTNAME')  # Add Render's dynamic hostname
-]
-
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -59,7 +48,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'RISEOTB.urls'
-
+ALLOWED_HOSTS = ['*'] 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -123,11 +112,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-
+import os
 STATIC_URL = 'static/'
 STATICFILES_DIRS =['static']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # required for collectstatic
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -137,19 +129,7 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-import os
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-import os
-from pathlib import Path
 from decouple import config
-
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-
-
-
-
