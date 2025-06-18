@@ -21,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d==s%n=4o%e-rhl8-sx0ia8)yc)^%=@n$_d$p^fb2l8-@#*6g('
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 
 
@@ -130,9 +130,13 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+import os
+
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "insecure-secret")
+
 DEBUG = False
-ALLOWED_HOSTS = ['RISEOTB.onrender.com']
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+ALLOWED_HOSTS = ['RISEOTB.onrender.com', 'localhost']
 
 
 
