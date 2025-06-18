@@ -25,6 +25,8 @@ SECRET_KEY = 'django-insecure-d==s%n=4o%e-rhl8-sx0ia8)yc)^%=@n$_d$p^fb2l8-@#*6g(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -34,7 +36,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
     'scmtracker',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -48,7 +53,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'RISEOTB.urls'
-ALLOWED_HOSTS = ['*'] 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -112,14 +117,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-import os
+
 STATIC_URL = 'static/'
 STATICFILES_DIRS =['static']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # required for collectstatic
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -129,7 +131,14 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-from decouple import config
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
 
-SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', default=False, cast=bool)
+
+
+
+
+
